@@ -1,8 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="zxx">
 
-{% load staticfiles %}
 <head>
     <title>Zaayka Food Ordering</title>
     <!-- Meta tag Keywords -->
@@ -19,14 +17,25 @@
         }
 
     </script>
-    <!-- //Meta tag Keywords -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- //Meta tag Keywords  class="btn btn-default btn-rounded mb-4"-->
     <!-- Custom-Files -->
-    <link rel="stylesheet" type="text/css" href="static/user/css/bootstrap.css"/>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "/user/css/bootstrap.css"%}"/>
     <!-- Bootstrap-Core-CSS -->
-    <link rel="stylesheet" href="static/user/css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static "/user/css/style.css"%}" type="text/css" media="all" />
     <!-- Style-CSS -->
     <!-- font-awesome-icons -->
-    <link href="static/user/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+    <link href="{% static "/user/css/font-awesome.css"%}" type="text/css" rel="stylesheet"/>
     <!-- //font-awesome-icons -->
     <!-- /Fonts -->
     <link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,600,700" rel="stylesheet"/>
@@ -34,6 +43,35 @@
     <!-- //Fonts -->
 </head>
 <body>
+  <div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{message.tags}}">{{ message }}</div>
+            {% endfor%}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
     <!-- mian-content -->
     <div class="main-content" id="home">
         <div class="layer">
@@ -64,6 +102,14 @@
                             </li>
                             <li><a href="#testimonials" class="scroll">Reviews</a></li>
                             <li><a href="#contact" class="scroll">Contact</a></li>
+                            {% if user.is_authenticated %}
+
+                            <li ><a href="{% url 'profile'%}" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-dashboard"></span> profile</a></li>
+                            <li ><a href="{% url 'logout'%}" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LogOut</a></li>
+                            {% else %}
+                            <li ><a href="{% url 'register'%}" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li ><a href="{% url 'login'%}" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                     <!-- //nav -->
